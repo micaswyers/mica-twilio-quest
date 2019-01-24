@@ -1,0 +1,9 @@
+.DS_Store
+creds.py
+.env
+*.swp
+*.db
+*.pyc
+
+venv/
+__pycache__/
