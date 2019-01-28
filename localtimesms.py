@@ -2,14 +2,19 @@ import os
 from datetime import datetime
 from twilio.rest import Client
 
-CLIENT = Client(os.environ['ACCOUNT_SID'], os.environ['AUTH_TOKEN'])
-NUMBER = os.environ['LOCAL_TIME_NUMBER']
+CLIENT = Client(os.environ['TWILIO_ACCOUNT_SID'], os.environ['TWILIO_AUTH_TOKEN'])
+TQ_NUMBER = os.environ['TQ_NUMBER']
+NUMBER = "+12092104311"
 
-body = "Greetings! The current time is: 5:04 pm"
+current_time = datetime.now().time()
 
-CLIENT.messages.create(
+body = f"Greetings! The current time is: {current_time} 46L7CZH6XDXGQIB"
+
+message = CLIENT.messages.create(
     body=body,
-    from_=creds.TWILIO_NUMBER,
+    from_=TQ_NUMBER,
     to=NUMBER,
 )
+
+print(message.sid)
 

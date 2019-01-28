@@ -10,7 +10,7 @@ app = Flask(__name__)
 def get():
     return "New App, who dis?"
 
-@app.route("/sms")
+@app.route("/sms", methods=["GET", "POST"])
 def sms_reply():
     fromCountry = request.args.get('FromCountry')
     response = MessagingResponse()
