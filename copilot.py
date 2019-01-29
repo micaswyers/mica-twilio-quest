@@ -1,25 +1,27 @@
 import os
+
 from twilio.rest import Client
 
-from flask import Flask, request
-from twilio.twiml.messaging_response import (
-    MessagingResponse,
-)
+account_sid = os.environ['TWILIO_ACCOUNT_SID']
+auth_token = os.environ['TWILIO_AUTH_TOKEN']
+my_number = os.environ['MICA_CELL']
+svc_sid = os.environ['SVC_SID']
+other_number = os.environ['KPOP_NUMBER']
 
 
-account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
 client = Client(account_sid, auth_token)
-svc_sid = os.environ.get('SVC_SID')
 
-service = client.messaging.services(svc_sid).fetch()
-app = Flask(__name__)
+for i in range(1,11):
+    message = client.messages.create(
+            body=f'I ate {i} cake(s)!',
+            messaging_service_sid=svc_sid,
+            to=my_number,
+    )
+    print(f'Message SID {message.sid} sent to {message.to}')
 
-@app.route("/sms", methods=['GET', 'POST'])
-def sms_reply():
-    response = MessagingResponse()
-    response.message("Hello World, this SMS was sent using a service")
-    return str(response)
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    message2 = client.messages.create(
+            body=f'I ate {i} cake(s)!',
+            messaging_service_sid=svc_sid,
+            to=other_number,
+    )
+    print(f'Message SID {message2.sid} sent to {message2.to}')
