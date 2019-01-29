@@ -11,9 +11,9 @@ app = Flask(__name__)
 def get():
     return "To-do Bot"
 
-@app.route("/sms")
+@app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
-    message = request.args.get('Body').split()
+    message = request.values.get('Body').split()
     first_word = message[0].strip().lower()
     if first_word == 'add':
         item = " ".join(message[1:])
