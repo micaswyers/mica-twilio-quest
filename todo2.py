@@ -1,7 +1,11 @@
 import logging
 import os
 
-from flask import Flask, request
+from flask import (
+    Flask,
+    render_template,
+    request,
+)
 from twilio.rest import Client
 from twilio.twiml.messaging_response import (
     # Do we need to import this?
@@ -10,7 +14,7 @@ from twilio.twiml.messaging_response import (
 )
 
 logging.basicConfig(level=logging.INFO)
-CLIENT = Client(os.environ['TWILIO_ACCOUNT_SID'], os.environ['TWILIO_AUTH_TOKEN'])
+CLIENT = Client()
 NGROK_URL = os.environ.get('NGROK_URL')
 TODOS = []
 app = Flask(__name__)
@@ -19,6 +23,18 @@ app = Flask(__name__)
 def get():
     return "To-do Bot with status reporting"
 
+@app.route("/dashboard", methods=['GET', 'POST'])
+def dashboard():
+    sms_records = CLIENT.usage.records.last_month.list(category='sms')[0]
+    count = sms_records.count
+    price = sms_records.price
+    return render_template(
+        'dashboard.html',
+        count=count,
+        price=price,
+        start_date=sms_records.start_date,
+        end_date=sms_records.end_date,
+    )
 
 @app.route("/status", methods=['GET', 'POST'])
 def status_reply():

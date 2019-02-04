@@ -1,0 +1,19 @@
+<!doctype html>
+<title>Dashboard</title>
+
+{% if count and price  %}
+    <h1>SMS Stats that you definitely care about</h1>
+    <h2>{{ start_date }} to {{ end_date }}</h2>
+    <table>
+        <tr>
+            <td>Total SMS</td>
+            <td>{{ count }}</td>
+        </tr>
+        <tr>
+            <td>Total Price</td>
+            <td>${{ price }}</td>
+        </tr>
+    </table>
+{% else %}
+    <h1>NOTHING TO SEE HERE, LOOK AWAY<h1>
+{% endif %}
