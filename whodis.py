@@ -12,7 +12,7 @@ def get():
 
 @app.route("/sms", methods=["GET", "POST"])
 def sms_reply():
-    fromCountry = request.args.get('FromCountry')
+    fromCountry = request.values.get('FromCountry')
     response = MessagingResponse()
     response.message("Hi! It looks like your phone number was born in %s" % (fromCountry,))
     return str(response)
