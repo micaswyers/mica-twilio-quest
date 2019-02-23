@@ -7,11 +7,7 @@ from flask import (
     request,
 )
 from twilio.rest import Client
-from twilio.twiml.messaging_response import (
-    # Do we need to import this?
-    Message,
-    MessagingResponse,
-)
+from twilio.twiml.messaging_response import MessagingResponse
 
 logging.basicConfig(level=logging.INFO)
 CLIENT = Client()
@@ -19,9 +15,11 @@ NGROK_URL = os.environ.get('NGROK_URL')
 TODOS = []
 app = Flask(__name__)
 
+
 @app.route("/")
 def get():
     return "To-do Bot with status reporting"
+
 
 @app.route("/dashboard", methods=['GET', 'POST'])
 def dashboard():
@@ -36,6 +34,7 @@ def dashboard():
         end_date=sms_records.end_date,
     )
 
+
 @app.route("/status", methods=['GET', 'POST'])
 def status_reply():
     twilio_signature = request.headers.get('X-Twilio-Signature')
@@ -45,12 +44,12 @@ def status_reply():
     logging.info(f"\nSID: {sid}\nStatus: {status}\nSignature: {twilio_signature}")
     return ('', 204)
 
+
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
     reply = MessagingResponse()
 
     message = request.values.get('Body').split()
-    to_number = request.values.get('From')
     first_word = message[0].strip().lower()
     if first_word == 'add':
         item = " ".join(message[1:])

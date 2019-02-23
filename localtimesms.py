@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from twilio.rest import Client
 
-CLIENT = Client(os.environ['TWILIO_ACCOUNT_SID'], os.environ['TWILIO_AUTH_TOKEN'])
+CLIENT = Client()
 TQ_NUMBER = os.environ['TQ_NUMBER']
 NUMBER = "+12092104311"
 
@@ -17,4 +17,3 @@ message = CLIENT.messages.create(
 )
 
 print(message.sid)
-

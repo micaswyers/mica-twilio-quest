@@ -1,15 +1,14 @@
 from flask import Flask, request
-from twilio.twiml.messaging_response import (
-    Message,
-    MessagingResponse,
-)
+from twilio.twiml.messaging_response import MessagingResponse, Message
 
 TODOS = []
 app = Flask(__name__)
 
+
 @app.route("/")
 def get():
     return "To-do Bot"
+
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
